@@ -115,8 +115,19 @@ long LinuxParser::IdleJiffies() { return 0; }
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { 
-  vector<string> utilization {"0.1", ".20", "30"}; 
-  return utilization;
+  vector<string> utilization {};
+  vector<vector<string>> utilizations;
+  std::ifstream stream(kProcDirectory + kStatFilename);
+  std::string line;
+  const std::string& delims = " ";
+  if (stream.is_open()){
+    while (std::getline(stream, line)){
+      boost::split(utilization, line, boost::is_any_of(delims));
+      utilizations.push_back(utilization);
+    }
+    return utilizations[0];
+  }
+  return {"1.0"};
 }
 
 
