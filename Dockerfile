@@ -5,5 +5,5 @@ RUN apt-get update && apt-get install -y \
   tzdata \
   build-essential \ 
   cmake \
-  libncurses5-dev 
-
+  libncurses5-dev \
+  libboost-all-dev
