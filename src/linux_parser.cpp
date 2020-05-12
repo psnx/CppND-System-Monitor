@@ -2,6 +2,10 @@
 #include <unistd.h>
 #include <string>
 #include <vector>
+#include <boost/algorithm/string.hpp>
+
+#include <iterator>
+#include <map>
 
 #include "linux_parser.h"
 
@@ -31,6 +35,30 @@ string LinuxParser::OperatingSystem() {
     }
   }
   return value;
+}
+
+string LinuxParser::OS(std::string dict_key) {
+  string line;
+  string key;
+  string value;
+  std::map<string, string> dict;
+  std::ifstream filestream(kOSPath);
+  if (filestream.is_open()){
+    while (std::getline(filestream, line)) {
+      std::istringstream linestream(line);
+      string s = linestream.str();
+      std::vector<std::string> results;
+      boost::split(results, s, [](char c){return c == '=';});
+      //boost::erase_all(results, '"');
+      key = results[0];
+      value = results[1];
+      dict[key]=value;
+    }
+  }
+  if (dict.find(dict_key) != dict.end()){
+    return dict.at(dict_key);
+  }
+  return "";
 }
 
 // DONE: An example of how to read data from the filesystem
@@ -86,7 +114,11 @@ long LinuxParser::ActiveJiffies() { return 0; }
 long LinuxParser::IdleJiffies() { return 0; }
 
 // TODO: Read and return CPU utilization
-vector<string> LinuxParser::CpuUtilization() { return {}; }
+vector<string> LinuxParser::CpuUtilization() { 
+  vector<string> utilization {"0.1", ".20", "30"}; 
+  return utilization;
+}
+
 
 // TODO: Read and return the total number of processes
 int LinuxParser::TotalProcesses() { return 0; }
