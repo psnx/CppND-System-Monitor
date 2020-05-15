@@ -120,11 +120,10 @@ vector<string> LinuxParser::CpuUtilization() {
   std::ifstream stream(kProcDirectory + kStatFilename);
   std::string line;
   const std::string& delims = " ";
-  boost::algorithm::token_compress_mode_type e;
+  const boost::algorithm::token_compress_mode_type& compress = boost::algorithm::token_compress_on;
   if (stream.is_open()){
     while (std::getline(stream, line)){
-      boost::split(utilization, line, boost::is_any_of(delims), 
-        e = boost::algorithm::token_compress_on);
+      boost::split(utilization, line, boost::is_any_of(delims), compress);
       utilizations.push_back(utilization);
     }
     return utilizations[1];
