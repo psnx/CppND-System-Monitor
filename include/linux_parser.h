@@ -4,6 +4,7 @@
 #include <fstream>
 #include <regex>
 #include <string>
+#include <unordered_set>
 
 namespace LinuxParser {
 // Paths
@@ -41,7 +42,15 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
+/*
+const std::unordered_set<CPUStates> nonidles 
+{kUser_, kNice_, kSystem_, kIRQ_, kSoftIRQ_, kSteal_, kGuest_, kGuestNice_};
+const std::unordered_set<CPUStates> idles 
+{ kIdle_, kIOwait_ };
+*/
 std::vector<std::string> CpuUtilization();
+std::vector<std::string> ReadProcStatFile(std::string core);
+
 long Jiffies();
 long ActiveJiffies();
 long ActiveJiffies(int pid);
