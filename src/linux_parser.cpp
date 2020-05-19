@@ -108,33 +108,51 @@ long LinuxParser::Jiffies() { return 0; }
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
 // TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { return 0; }
+long LinuxParser::ActiveJiffies() { 
+  // {kUser_, kNice_, kSystem_, kIRQ_, kSoftIRQ_, kSteal_, kGuest_, kGuestNice_};
+  auto cpu = LinuxParser::CpuUtilization();
+  long activeJiffies{0};
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kUser_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kNice_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kSystem_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kIRQ_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kSoftIRQ_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kSteal_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kGuest_]);
+  activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kGuestNice_]);
+  return activeJiffies; 
+}
 
 // TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { return 0; }
+long LinuxParser::IdleJiffies() { 
+  auto cpu = LinuxParser::CpuUtilization();  
+  long idle{0};
+  idle += std::stol(cpu[LinuxParser::CPUStates::kIdle_]);
+  idle += std::stol(cpu[LinuxParser::CPUStates::kIOwait_]);
+  return idle; 
+}
 
 // TODO: Read and return CPU utilization
 vector<string> LinuxParser::CpuUtilization() { 
-  return ReadProcStatFile("cpu");
+  return GetCpuStatForCore("cpu");
 }
 
-std::vector<std::string> LinuxParser::ReadProcStatFile(std::string core){
+std::vector<std::string> LinuxParser::GetCpuStatForCore(std::string core) {
   vector<string> utilization {};
   std::ifstream stream(kProcDirectory + kStatFilename);
   std::string line;
   const std::string& delims = " ";
   const boost::algorithm::token_compress_mode_type& compress = boost::algorithm::token_compress_on;
-  if (stream.is_open()){
+  if (stream.is_open()) {
     while (std::getline(stream, line)){
       boost::split(utilization, line, boost::is_any_of(delims), compress);
-      if (utilization[0] == core){ 
+      if (utilization[0] == core) { 
         utilization.erase(utilization.begin());
         return utilization;
       }
     }
-    return utilization;
   }
-  return {"1.0"};
+  return utilization;
 }
 
 

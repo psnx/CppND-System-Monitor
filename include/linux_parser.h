@@ -1,6 +1,7 @@
 #ifndef SYSTEM_PARSER_H
 #define SYSTEM_PARSER_H
 
+#include <array>
 #include <fstream>
 #include <regex>
 #include <string>
@@ -29,6 +30,7 @@ std::string OperatingSystem();
 std::string Kernel();
 std::string OS(std::string dict_key);
 
+
 // CPU
 enum CPUStates {
   kUser_ = 0,
@@ -43,13 +45,14 @@ enum CPUStates {
   kGuestNice_
 };
 /*
-const std::unordered_set<CPUStates> nonidles 
+const std::array<CPUStates, 8> nonidles =
 {kUser_, kNice_, kSystem_, kIRQ_, kSoftIRQ_, kSteal_, kGuest_, kGuestNice_};
-const std::unordered_set<CPUStates> idles 
+
+const std::array<CPUStates, 2> idles =
 { kIdle_, kIOwait_ };
 */
 std::vector<std::string> CpuUtilization();
-std::vector<std::string> ReadProcStatFile(std::string core);
+std::vector<std::string> GetCpuStatForCore(std::string core);
 
 long Jiffies();
 long ActiveJiffies();
