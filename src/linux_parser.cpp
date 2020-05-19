@@ -108,9 +108,9 @@ long LinuxParser::Jiffies() { return 0; }
 long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
 
 // TODO: Read and return the number of active jiffies for the system
-long LinuxParser::ActiveJiffies() { 
+long LinuxParser::ActiveJiffies(const std::vector<std::string>& cpu) { 
   // {kUser_, kNice_, kSystem_, kIRQ_, kSoftIRQ_, kSteal_, kGuest_, kGuestNice_};
-  auto cpu = LinuxParser::CpuUtilization();
+  //auto cpu = LinuxParser::CpuUtilization();
   long activeJiffies{0};
   activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kUser_]);
   activeJiffies += std::stol(cpu[LinuxParser::CPUStates::kNice_]);
@@ -124,8 +124,8 @@ long LinuxParser::ActiveJiffies() {
 }
 
 // TODO: Read and return the number of idle jiffies for the system
-long LinuxParser::IdleJiffies() { 
-  auto cpu = LinuxParser::CpuUtilization();  
+long LinuxParser::IdleJiffies(const std::vector<std::string>& cpu) { 
+  //auto cpu = LinuxParser::CpuUtilization();  
   long idle{0};
   idle += std::stol(cpu[LinuxParser::CPUStates::kIdle_]);
   idle += std::stol(cpu[LinuxParser::CPUStates::kIOwait_]);

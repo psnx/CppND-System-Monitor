@@ -55,9 +55,9 @@ std::vector<std::string> CpuUtilization();
 std::vector<std::string> GetCpuStatForCore(std::string core);
 
 long Jiffies();
-long ActiveJiffies();
+long ActiveJiffies(const std::vector<std::string>& cpu);
 long ActiveJiffies(int pid);
-long IdleJiffies();
+long IdleJiffies(const std::vector<std::string>& cpu);
 
 // Processes
 std::string Command(int pid);
