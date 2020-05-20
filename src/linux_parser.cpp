@@ -154,6 +154,24 @@ std::vector<std::string> LinuxParser::GetCpuStatForCore(std::string core) {
   return utilization;
 }
 
+std::unordered_map<std::string, std::string> ReadProcessStat(int pid){
+  std::unordered_map stat {};
+  std::ifstream stream(kProcDirectory + to_string(pid) + kStatusFilename);
+  std:string line;
+  const std::string& delims = ":";
+  vector<std::string> pair;
+  //boost::algorithm::token_compress_type& compress = boost::algorithm::token_compress_on;
+  if (stream.is_open()){
+    while (std::getline(stream, line)){
+      boost::split(&pair, line, boost::is_any_of(delims));
+      stat[pair[0]] = stat[pair[1]];
+    }
+    return stat;
+  }
+  return stat;
+}
+
+
 
 
 // TODO: Read and return the total number of processes
