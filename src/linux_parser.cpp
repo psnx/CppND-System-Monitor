@@ -49,7 +49,6 @@ string LinuxParser::OS(std::string dict_key) {
       string s = linestream.str();
       std::vector<std::string> results;
       boost::split(results, s, [](char c){return c == '=';});
-      //boost::erase_all(results, '"');
       key = results[0];
       value = results[1];
       dict[key]=value;
