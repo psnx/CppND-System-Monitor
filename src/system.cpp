@@ -27,8 +27,6 @@ vector<Process>& System::Processes() {
   {
     processes_.push_back(Process(p));
   }
-  
- 
   return processes_; 
 }
 
@@ -52,4 +50,6 @@ int System::RunningProcesses() {
 int System::TotalProcesses() { return 0; }
 
 // TODO: Return the number of seconds since the system started running
-long int System::UpTime() { return 0; }
+long int System::UpTime() { 
+  return (long)1212;
+ }
