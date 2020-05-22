@@ -1,6 +1,7 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
+#include <unordered_map>
 #include <string>
 #include <vector>
 /*
@@ -9,7 +10,9 @@ It contains relevant attributes as shown below
 */
 class Process {
  public:
-  int Pid();                               // TODO: See src/process.cpp
+  Process(int pid);
+  void Update();
+  int Pid() const;                               // TODO: See src/process.cpp
   std::string User();                      // TODO: See src/process.cpp
   std::string Command();                   // TODO: See src/process.cpp
   float CpuUtilization();                  // TODO: See src/process.cpp
@@ -19,6 +22,9 @@ class Process {
 
   // TODO: Declare any necessary private members
  private:
+  int pid_;
+  std::unordered_map<std::string, std::string> process_state {};
+
 };
 
 #endif

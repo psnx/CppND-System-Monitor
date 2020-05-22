@@ -154,23 +154,22 @@ std::vector<std::string> LinuxParser::GetCpuStatForCore(std::string core) {
   return utilization;
 }
 
-std::unordered_map<std::string, std::string> ReadProcessStat(int pid){
-  std::unordered_map stat {};
-  std::ifstream stream(kProcDirectory + to_string(pid) + kStatusFilename);
-  std:string line;
-  const std::string& delims = ":";
-  vector<std::string> pair;
-  //boost::algorithm::token_compress_type& compress = boost::algorithm::token_compress_on;
-  if (stream.is_open()){
-    while (std::getline(stream, line)){
-      boost::split(&pair, line, boost::is_any_of(delims));
-      stat[pair[0]] = stat[pair[1]];
+std::unordered_map<std::string, std::string> LinuxParser::ReadProcessStat(int pid) {
+  std::unordered_map<std::string, std::string> stat {};
+  std::ifstream filestream(kProcDirectory + to_string(pid) + kStatusFilename);
+  std::string line;
+  std::vector<std::string> results;
+  if (filestream.is_open()){
+    while (std::getline(filestream, line)){
+      boost::split(results, line, [](char c){return c == ':';});
+      auto key = results[0];
+      auto value = results[1];
+      boost::algorithm::trim(value);
+      stat[key]=value;
     }
-    return stat;
   }
   return stat;
 }
-
 
 
 

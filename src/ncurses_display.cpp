@@ -69,7 +69,8 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
   mvwprintw(window, row, time_column, "TIME+");
   mvwprintw(window, row, command_column, "COMMAND");
   wattroff(window, COLOR_PAIR(2));
-  for (int i = 0; i < n; ++i) {
+  //Tamas: process size check was added
+  for (int i = 0; i < n && i < (int)processes.size(); ++i) {
     mvwprintw(window, ++row, pid_column, to_string(processes[i].Pid()).c_str());
     mvwprintw(window, row, user_column, processes[i].User().c_str());
     float cpu = processes[i].CpuUtilization() * 100;
@@ -100,6 +101,7 @@ void NCursesDisplay::Display(System& system, int n) {
     box(process_window, 0, 0);
     DisplaySystem(system, system_window);
     DisplayProcesses(system.Processes(), process_window, n);
+
     wrefresh(system_window);
     wrefresh(process_window);
     refresh();
