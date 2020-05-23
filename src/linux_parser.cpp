@@ -98,8 +98,16 @@ float LinuxParser::MemoryUtilization() { return 0.0; }
 
 // TODO: Read and return the system uptime
 long LinuxParser::UpTime() { 
-  long l {12121212};
-  return l;
+  std::string line, token;
+  std::ifstream filestream(kProcDirectory + kUptimeFilename);
+  if (filestream.is_open()) {
+    std::getline(filestream, line);
+    std::istringstream ss (line);
+    if (ss >> token) {
+      return std::stoi(token);
+    }
+  }
+  return 0;
  }
 
 // TODO: Read and return the number of jiffies for the system
@@ -208,7 +216,7 @@ long LinuxParser::UpTime(int pid) {
   long int time{0};
   if (filestream.is_open()){
     for (int i = 0; filestream >> token; ++i)
-      if (i == 13) {
+      if (i == 22) {
         long int time{stol(token)};
         time /= sysconf(_SC_CLK_TCK);
         return time;
