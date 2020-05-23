@@ -12,7 +12,7 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(int pid) : pid_(pid), process_state(LinuxParser::ReadProcessStat(pid)) {}
+Process::Process(int pid) : pid_(pid), process_state(LinuxParser::ReadProcessStatus(pid)) {}
 
 int Process::Pid() const { return pid_;}
 

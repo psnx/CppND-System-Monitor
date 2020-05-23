@@ -165,7 +165,7 @@ std::vector<std::string> LinuxParser::GetCpuStatForCore(std::string core) {
   return utilization;
 }
 
-std::unordered_map<std::string, std::string> LinuxParser::ReadProcessStat(int pid) {
+std::unordered_map<std::string, std::string> LinuxParser::ReadProcessStatus(int pid) {
   std::unordered_map<std::string, std::string> stat {};
   std::ifstream filestream(kProcDirectory + to_string(pid) + kStatusFilename);
   std::string line;
