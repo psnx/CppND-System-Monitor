@@ -23,7 +23,7 @@ float Process::CpuUtilization() {
 
 // TODO: Return the command that generated this process
 string Process::Command() { 
-   return "command";
+   return "["+ process_state["Name"] + "]: " + LinuxParser::Command(Pid());
 }
 
 // TODO: Return this process's memory utilization
