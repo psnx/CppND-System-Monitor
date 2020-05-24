@@ -1,8 +1,8 @@
 #ifndef PROCESS_H
 #define PROCESS_H
 
-#include <unordered_map>
 #include <string>
+#include <unordered_map>
 #include <vector>
 /*
 Basic class for Process representation
@@ -12,7 +12,7 @@ class Process {
  public:
   Process(int pid);
   void Update();
-  int Pid() const;                               // TODO: See src/process.cpp
+  int Pid() const;                         // TODO: See src/process.cpp
   std::string User();                      // TODO: See src/process.cpp
   std::string Command();                   // TODO: See src/process.cpp
   float CpuUtilization();                  // TODO: See src/process.cpp
@@ -23,10 +23,10 @@ class Process {
   // TODO: Declare any necessary private members
  private:
   int pid_;
-  std::unordered_map<std::string, std::string> process_state {};
-  std::vector<std::string> stat;          // from /proc/PID/stat
-  long ActiveJiffies();                   //The the process's own jiffies
-  enum eProcess_stat  {
+  std::unordered_map<std::string, std::string> process_state{};
+  std::vector<std::string> stat;  // from /proc/PID/stat
+  long ActiveJiffies();           // The the process's own jiffies
+  enum eProcess_stat {
     user = 13,
     kernel = 14,
     children_user = 15,

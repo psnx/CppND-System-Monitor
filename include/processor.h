@@ -9,7 +9,10 @@ class Processor {
 
   // TODO: Declare any necessary private members
  private:
-  std::unordered_map<std::string, long> GetJiffies(std::unordered_map<std::string, std::function<long(const std::vector<std::string>&)>>& jiffy_map);
+  std::unordered_map<std::string, long> GetJiffies(
+      std::unordered_map<std::string,
+                         std::function<long(const std::vector<std::string>&)>>&
+          jiffy_map);
 };
 
 #endif

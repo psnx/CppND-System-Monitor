@@ -2,8 +2,8 @@
 #define SYSTEM_H
 
 #include <string>
-#include <vector>
 #include <unordered_set>
+#include <vector>
 
 #include "process.h"
 #include "processor.h"
