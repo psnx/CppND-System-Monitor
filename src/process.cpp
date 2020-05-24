@@ -12,14 +12,26 @@ using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(int pid) : pid_(pid), process_state(LinuxParser::ReadProcessStatus(pid)) {}
+Process::Process(int pid) : 
+    pid_(pid), 
+    process_state(LinuxParser::ReadProcessStatus(pid)), 
+    stat(LinuxParser::ReadStat(pid)) {}
 
 int Process::Pid() const { return pid_;}
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization() { 
-    return 0; 
+float Process::CpuUtilization() {
+    return static_cast<float> (this->ActiveJiffies()) / static_cast<float> (LinuxParser::Jiffies());
 }
+
+long Process::ActiveJiffies() {
+  long active {0};
+  active += stol(stat[eProcess_stat::user]);
+  active += stol(stat[eProcess_stat::kernel]);
+  active += stol(stat[eProcess_stat::children_user]);
+  active += stol(stat[eProcess_stat::children_kernel]);
+  return active;
+ }
 
 // TODO: Return the command that generated this process
 string Process::Command() { 
@@ -42,6 +54,8 @@ string Process::User() {
 long int Process::UpTime() { 
     return LinuxParser::UpTime(Pid());
 }
+
+
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function

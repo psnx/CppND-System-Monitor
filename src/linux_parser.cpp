@@ -111,11 +111,13 @@ long LinuxParser::UpTime() {
  }
 
 // TODO: Read and return the number of jiffies for the system
-long LinuxParser::Jiffies() { return 0; }
+long LinuxParser::Jiffies() { 
+  return UpTime() * sysconf(_SC_CLK_TCK); 
+}
 
 // TODO: Read and return the number of active jiffies for a PID
 // REMOVE: [[maybe_unused]] once you define the function
-long LinuxParser::ActiveJiffies(int pid[[maybe_unused]]) { return 0; }
+
 
 long LinuxParser::ActiveJiffies(const std::vector<std::string>& cpu) { 
   // {kUser_, kNice_, kSystem_, kIRQ_, kSoftIRQ_, kSteal_, kGuest_, kGuestNice_};
@@ -181,7 +183,19 @@ std::unordered_map<std::string, std::string> LinuxParser::ReadProcessStatus(int 
   return stat;
 }
 
-
+std::vector<std::string> LinuxParser::ReadStat(int pid){
+  std::vector<std::string> stat {};
+  std::ifstream filestream(kProcDirectory + to_string(pid) + kStatFilename);
+  std::string line, token;
+  if(filestream.is_open()){
+    std::getline(filestream, line);
+    std::istringstream ss(line);
+    while(ss >> token){
+      stat.push_back(token);
+    }
+  }
+  return stat;
+}
 
 
 
@@ -194,7 +208,7 @@ int LinuxParser::RunningProcesses() { return 0; }
 // TODO: Read and return the command associated with a process
 // REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Command(int pid) { 
-    std::string line, token;
+  std::string line, token;
   std::ifstream filestream(kProcDirectory + to_string(pid) + kCmdlineFilename);
   if (filestream.is_open()) {
     std::getline(filestream, line);

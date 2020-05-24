@@ -56,7 +56,6 @@ std::vector<std::string> GetCpuStatForCore(std::string core);
 
 long Jiffies();
 long ActiveJiffies(const std::vector<std::string>& cpu);
-long ActiveJiffies(int pid);
 long IdleJiffies(const std::vector<std::string>& cpu);
 
 // Processes
@@ -65,6 +64,7 @@ std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
+std::vector<std::string> ReadStat(int pid);
 
 std::unordered_map<std::string, std::string> ReadProcessStatus(int pid);
 

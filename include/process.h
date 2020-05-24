@@ -24,7 +24,14 @@ class Process {
  private:
   int pid_;
   std::unordered_map<std::string, std::string> process_state {};
-
+  std::vector<std::string> stat;          // from /proc/PID/stat
+  long ActiveJiffies();                   //The the process's own jiffies
+  enum eProcess_stat  {
+    user = 13,
+    kernel = 14,
+    children_user = 15,
+    children_kernel = 16
+  };
 };
 
 #endif
