@@ -3,12 +3,14 @@
 #include <set>
 #include <string>
 #include <vector>
-#include <set>
+#include <algorithm>
+#include <unordered_set>
 
 #include "linux_parser.h"
 #include "process.h"
 #include "processor.h"
 #include "system.h"
+
 
 using std::set;
 using std::size_t;
@@ -21,17 +23,32 @@ Processor& System::Cpu() {
 
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() { 
-  std::vector<int> pids = LinuxParser::Pids();
-  processes_.clear();
-  for (int p : pids)
-  {
-    processes_.push_back(Process(p));
+  auto pids_to_create = GetNewPids();
+  for (auto p : pids_to_create){
+    processes_.push_back(p);
   }
   return processes_; 
 }
 
 std::string System::Kernel() { 
     return LinuxParser::Kernel(); 
+}
+
+std::unordered_set<int> System::GetNewPids(){
+  std::vector<int> pids = LinuxParser::Pids();
+  std::unordered_set<int> pids_to_create {};
+  std::vector<int> existent_pids = {};
+  for (auto process: processes_){
+    existent_pids.push_back(process.Pid());
+  };
+
+  for (auto pid : pids) {
+    auto it = std::find(existent_pids.begin(), existent_pids.end(), pid);
+    if (it == existent_pids.end()){
+      pids_to_create.insert(pid);
+    }
+  };
+ return pids_to_create;
 }
 
 // TODO: Return the system's memory utilization

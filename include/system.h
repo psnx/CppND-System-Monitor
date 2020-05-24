@@ -3,6 +3,7 @@
 
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 #include "process.h"
 #include "processor.h"
@@ -20,6 +21,7 @@ class System {
 
   // TODO: Define any necessary private members
  private:
+  std::unordered_set<int> GetNewPids();
   Processor cpu_ = {};
   std::vector<Process> processes_;
 };

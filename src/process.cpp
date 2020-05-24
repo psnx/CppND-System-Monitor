@@ -19,6 +19,11 @@ Process::Process(int pid) :
 
 int Process::Pid() const { return pid_;}
 
+void Process::Update(){
+    process_state = LinuxParser::ReadProcessStatus(pid_);
+    stat = LinuxParser::ReadStat(pid_);
+}
+
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() {
     return static_cast<float> (this->ActiveJiffies()) / static_cast<float> (LinuxParser::Jiffies());
