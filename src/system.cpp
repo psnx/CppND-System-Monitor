@@ -26,7 +26,25 @@ vector<Process>& System::Processes() {
   for (auto p : pids_to_create) {
     processes_.push_back(p);
   }
+  Update();
   return processes_;
+}
+
+void System::Update() {
+  for (auto& process : processes_){
+    auto it = std::find(LinuxParser::Pids().begin(), LinuxParser::Pids().end(), process.Pid());
+    if (it == LinuxParser::Pids().end()){
+      //TODO removal to be fixed
+    } else {
+      process.Update();
+    }
+  }
+} 
+
+vector<int> System::RegisteredPids() const {
+  vector<int> pids {};
+  std::for_each(begin(processes_), end(processes_), [&pids](auto p){pids.push_back(p.Pid());});
+  return pids;
 }
 
 std::string System::Kernel() { return LinuxParser::Kernel(); }
