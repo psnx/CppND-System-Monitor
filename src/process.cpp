@@ -16,13 +16,13 @@ using std::vector;
 
 Process::Process(int pid)
     : pid_(pid),
-      process_state(LinuxParser::ReadProcessStatus(pid)),
+      process_status(LinuxParser::ReadProcessStatus(pid)),
       stat(LinuxParser::ReadStat(pid)) {}
 
 int Process::Pid() const { return pid_; }
 
 void Process::Update() {
-  process_state = LinuxParser::ReadProcessStatus(pid_);
+  process_status = LinuxParser::ReadProcessStatus(pid_);
   stat = LinuxParser::ReadStat(pid_);
 }
 
@@ -43,7 +43,7 @@ long Process::ActiveJiffies() {
 
 // TODO: Return the command that generated this process
 string Process::Command() {
-  return "[" + process_state["Name"] + "]: " + LinuxParser::Command(Pid());
+  return "[" + process_status["Name"] + "]: " + LinuxParser::Command(Pid());
 }
 
 // TODO: Return this process's memory utilization

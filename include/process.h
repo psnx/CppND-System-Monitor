@@ -25,7 +25,7 @@ class Process {
   // TODO: Declare any necessary private members
  private:
   int pid_;
-  std::unordered_map<std::string, std::string> process_state{};
+  std::unordered_map<std::string, std::string> process_status{};
   std::vector<std::string> stat;  // from /proc/PID/stat
   long ActiveJiffies();           // The the process's own jiffies
   enum eProcess_stat {
