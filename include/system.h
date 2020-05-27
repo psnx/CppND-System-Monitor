@@ -1,8 +1,8 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-#include <string>
 #include <set>
+#include <string>
 #include <vector>
 
 #include "process.h"
@@ -20,9 +20,10 @@ class System {
   std::string OperatingSystem();      // TODO: See src/system.cpp
 
  private:
-  void Update();                      // cyclyc update of processes
+  void Update();  // cyclyc update of processes
   std::set<int> ExistentPids() const;
-  std::set<int> RelativeComplement(const std::set<int>& one, const std::set<int>& two);
+  std::set<int> RelativeComplement(const std::set<int>& one,
+                                   const std::set<int>& two);
   std::set<int> ExpiringPids();
   void RemoveTerminatedProcesses(std::set<int> expired_pids);
   Processor cpu_ = {};
