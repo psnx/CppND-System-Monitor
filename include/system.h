@@ -19,16 +19,14 @@ class System {
   std::string Kernel();               // TODO: See src/system.cpp
   std::string OperatingSystem();      // TODO: See src/system.cpp
 
-  // TODO: Define any necessary private members
  private:
   void Update();                      // cyclyc update of processes
   std::set<int> ExistentPids() const;
-  std::set<int> Diff(const std::set<int>& one, const std::set<int>& two);
+  std::set<int> RelativeComplement(const std::set<int>& one, const std::set<int>& two);
   std::set<int> ExpiringPids();
   void RemoveTerminatedProcesses(std::set<int> expired_pids);
   Processor cpu_ = {};
   std::vector<Process> processes_;
 };
-
 
 #endif

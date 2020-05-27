@@ -27,13 +27,13 @@ vector<Process>& System::Processes() {
 
 void System::Update() {
   // new pids not in process list
-  std::set<int> nascent_pids = Diff(LinuxParser::Pids(), ExistentPids());
+  std::set<int> nascent_pids = RelativeComplement(LinuxParser::Pids(), ExistentPids());
   std::for_each(nascent_pids.begin(), nascent_pids.end(), [&](auto & pid){processes_.push_back(Process(pid));});
   RemoveTerminatedProcesses(ExpiringPids());
 }
 
 std::set<int> System::ExpiringPids(){
-  std::set<int> expiring_pids = Diff(ExistentPids(), LinuxParser::Pids());
+  std::set<int> expiring_pids = RelativeComplement(ExistentPids(), LinuxParser::Pids());
   std::for_each(expiring_pids.begin(), expiring_pids.end(), [&expiring_pids](const auto & pid) {expiring_pids.insert(pid);});
   return expiring_pids;
 }
@@ -51,7 +51,7 @@ std::set<int> System::ExistentPids() const {
   return pids;
 }
 
-std::set<int> System::Diff(const std::set<int>&  one, const std::set<int>& two){
+std::set<int> System::RelativeComplement(const std::set<int>&  one, const std::set<int>& two){
   std::set<int> diff{};
   std::set_difference(one.begin(), one.end(),
     two.begin(), two.end(),
