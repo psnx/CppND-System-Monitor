@@ -28,8 +28,12 @@ void Process::Update() {
 
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() {
-  return static_cast<float>(this->ActiveJiffies()) /
-         static_cast<float>(LinuxParser::Jiffies());
+  long active = static_cast<float>(this->ActiveJiffies());
+  long total = static_cast<float>(LinuxParser::Jiffies());
+  float utilization = static_cast<float>((active-preciding_active_)/(total-preciding_total_));
+  preciding_active_ = active;
+  preciding_total_ = total;
+  return utilization;
 }
 
 long Process::ActiveJiffies() {
@@ -44,7 +48,7 @@ long Process::ActiveJiffies() {
 // TODO: Return the command that generated this process
 string Process::Command() {
   return "[" + process_status["Name"] + " (" + process_status["State"].at(0) +
-         ") " + "]: " + LinuxParser::Command(Pid());
+         ")" + "]: " + LinuxParser::Command(Pid());
 }
 
 // TODO: Return this process's memory utilization

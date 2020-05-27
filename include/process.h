@@ -33,6 +33,9 @@ class Process {
     children_user = 15,
     children_kernel = 16
   };
+  long preciding_active_{0};
+  long preciding_total_{0};
+
 };
 
 #endif
