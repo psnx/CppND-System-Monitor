@@ -43,19 +43,17 @@ long Process::ActiveJiffies() {
 
 // TODO: Return the command that generated this process
 string Process::Command() {
-  return "[" + process_status["Name"] + "]: " + LinuxParser::Command(Pid());
+  return "[" + process_status["Name"] + " (" + process_status["State"].at(0) + ") " + "]: " + LinuxParser::Command(Pid());
 }
 
 // TODO: Return this process's memory utilization
 string Process::Ram() {
-  return "11";
-  // return process_state["VmSize"];
+  return process_status["VmSize"];
 }
 
 // TODO: Return the user (name) that generated this process
 string Process::User() {
-  return "T";
-  // return process_state["Uid"];
+  return process_status["Uid"];
 }
 
 // TODO: Return the age of this process (in seconds)
