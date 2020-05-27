@@ -2,7 +2,7 @@
 #define SYSTEM_H
 
 #include <string>
-#include <unordered_set>
+#include <set>
 #include <vector>
 
 #include "process.h"
@@ -19,13 +19,16 @@ class System {
   std::string Kernel();               // TODO: See src/system.cpp
   std::string OperatingSystem();      // TODO: See src/system.cpp
   void Update();                      // cyclyc update of processes
-  std::vector<int> RegisteredPids () const;
+  std::set<int> ExistentPids() const;
+  std::set<int> Diff(const std::set<int>&  one, const std::set<int>&  two);
+  std::set<int> ExpiringPids();
+  void RemoveTerminatedProcesses(std::set<int> expired_pids);
 
   // TODO: Define any necessary private members
  private:
-  std::unordered_set<int> GetNewPids();
   Processor cpu_ = {};
   std::vector<Process> processes_;
 };
+
 
 #endif

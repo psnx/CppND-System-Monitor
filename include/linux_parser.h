@@ -5,7 +5,7 @@
 #include <fstream>
 #include <regex>
 #include <string>
-#include <unordered_set>
+#include <set>
 
 namespace LinuxParser {
 // Paths
@@ -23,7 +23,7 @@ const std::string kPasswordPath{"/etc/passwd"};
 // System
 float MemoryUtilization();
 long UpTime();
-std::vector<int> Pids();
+std::set<int> Pids();
 int TotalProcesses();
 int RunningProcesses();
 std::string OperatingSystem();

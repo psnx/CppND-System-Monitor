@@ -6,7 +6,6 @@
 #include <cstddef>
 #include <set>
 #include <string>
-#include <unordered_set>
 #include <vector>
 
 #include "linux_parser.h"
@@ -22,49 +21,45 @@ Processor& System::Cpu() { return cpu_; }
 
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() {
-  auto pids_to_create = GetNewPids();
-  for (auto p : pids_to_create) {
-    processes_.push_back(p);
-  }
   Update();
-  return processes_;
+  return this->processes_;
 }
 
 void System::Update() {
-  for (auto& process : processes_){
-    auto it = std::find(LinuxParser::Pids().begin(), LinuxParser::Pids().end(), process.Pid());
-    if (it == LinuxParser::Pids().end()){
-      //TODO removal to be fixed
-    } else {
-      process.Update();
-    }
-  }
-} 
+  // new pids not in process list
+  std::set<int> nascent_pids = Diff(LinuxParser::Pids(), ExistentPids());
+  std::for_each(nascent_pids.begin(), nascent_pids.end(), [&](auto & pid){processes_.push_back(Process(pid));});
+  RemoveTerminatedProcesses(ExpiringPids());
+}
 
-vector<int> System::RegisteredPids() const {
-  vector<int> pids {};
-  std::for_each(begin(processes_), end(processes_), [&pids](auto p){pids.push_back(p.Pid());});
+std::set<int> System::ExpiringPids(){
+  std::set<int> expiring_pids = Diff(ExistentPids(), LinuxParser::Pids());
+  std::for_each(expiring_pids.begin(), expiring_pids.end(), [&expiring_pids](const auto & pid) {expiring_pids.insert(pid);});
+  return expiring_pids;
+}
+void System::RemoveTerminatedProcesses(std::set<int> expired_pids){
+  for (auto pid : expired_pids){
+    auto it = std::remove_if(processes_.begin(), processes_.end(),
+      [&](auto & p){return p.Pid() == pid;});
+    processes_.erase(it, processes_.end());
+  }
+}
+
+std::set<int> System::ExistentPids() const {
+  std::set<int> pids {};
+  std::for_each(begin(processes_), end(processes_), [&pids](auto& p){pids.insert(p.Pid());});
   return pids;
 }
 
-std::string System::Kernel() { return LinuxParser::Kernel(); }
-
-std::unordered_set<int> System::GetNewPids() {
-  std::vector<int> pids = LinuxParser::Pids();
-  std::unordered_set<int> pids_to_create{};
-  std::vector<int> existent_pids = {};
-  for (auto process : processes_) {
-    existent_pids.push_back(process.Pid());
-  };
-
-  for (auto pid : pids) {
-    auto it = std::find(existent_pids.begin(), existent_pids.end(), pid);
-    if (it == existent_pids.end()) {
-      pids_to_create.insert(pid);
-    }
-  };
-  return pids_to_create;
+std::set<int> System::Diff(const std::set<int>&  one, const std::set<int>& two){
+  std::set<int> diff{};
+  std::set_difference(one.begin(), one.end(),
+    two.begin(), two.end(),
+    std::inserter(diff, diff.begin()));
+  return diff;
 }
+
+std::string System::Kernel() { return LinuxParser::Kernel(); }
 
 // TODO: Return the system's memory utilization
 float System::MemoryUtilization() { return 0.0; }
@@ -78,3 +73,5 @@ int System::RunningProcesses() { return LinuxParser::Pids().size(); }
 int System::TotalProcesses() { return 0; }
 
 long int System::UpTime() { return LinuxParser::UpTime(); }
+
+
