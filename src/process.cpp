@@ -63,12 +63,8 @@ string Process::Ram() {
 string Process::User() { 
   std::string entry = process_status["Uid"];
   std::istringstream ss(entry);
-  std::string uname;
   std::string token;
-  if (ss>>token){
-    uname = (*pwd_).FindUsername(stoi(token));
-  }
-  return uname;
+  return (ss>>token) ? (*pwd_).FindUsername(stoi(token)) : "-";
 }
 
 // TODO: Return the age of this process (in seconds)
