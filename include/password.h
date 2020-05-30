@@ -8,6 +8,7 @@ class Password {
   public:
     Password();
     std::string FindUsername(int uid);
+    void Update();
 
   private:
     std::unordered_map<int, std::string> passwd_cache_;

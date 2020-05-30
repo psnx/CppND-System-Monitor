@@ -10,6 +10,10 @@
 const std::string kPasswordPath{"/etc/passwd"};
 
 Password::Password(){
+  Update();
+}
+
+void Password::Update(){
   std::ifstream stream(kPasswordPath);
   std::vector<std::string> results;
   std::string line;
@@ -27,7 +31,7 @@ std::string Password::FindUsername(int uid){
   std::unordered_map<int,std::string>::const_iterator it = passwd_cache_.find(uid);
   if (it == passwd_cache_.end()){
     passwd_cache_.insert(std::make_pair(uid, "*UNKNOWN*"));
-    return "*UNKNOWN";
+    return "*UNKNOWN*";
   } else {
     return passwd_cache_.at(uid);
   }
