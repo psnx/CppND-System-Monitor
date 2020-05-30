@@ -234,31 +234,6 @@ string LinuxParser::Command(int pid) {
   return "NaN";
 }
 
-// TODO: Read and return the memory used by a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Ram(int pid [[maybe_unused]]) { return string(); }
-
-// TODO: Read and return the user ID associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-string LinuxParser::Uid(int pid) { 
-
-  return string(); 
-}
-
-// TODO: Read and return the user associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
-/*
-string LinuxParser::User(int pid) { 
-  std::string line, token,user, _, uid;
-  std::ifstream filestream(kPasswordPath);
-  if (filestream.is_open()){
-    while (std::getline(filestream, line)){
-        line >> user >> _ >> uid;
-      }
-    }
-  }
-}
-*/
 // TODO: Read and return the uptime of a process
 // REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid) {
