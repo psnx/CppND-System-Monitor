@@ -20,11 +20,9 @@ using std::vector;
 
 Processor& System::Cpu() { return cpu_; }
 
-// TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() {
   Update();
-  pwd = Password();
-  //Password* pwd_pointer = &pwd;
+  pwd = Password(); //TODO: Implement some update mechanism?
   return this->processes_;
 }
 
@@ -70,7 +68,6 @@ std::set<int> System::RelativeComplement(const std::set<int>& one,
 
 std::string System::Kernel() { return LinuxParser::Kernel(); }
 
-// TODO: Return the system's memory utilization
 float System::MemoryUtilization() { 
   return LinuxParser::MemoryUtilization();
  }

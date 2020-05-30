@@ -19,7 +19,7 @@ float Processor::Utilization() {
   input_map["active"] = fpv;
   auto jiffies = GetJiffies(input_map);
   return (float)jiffies["active"] /
-         ((float)jiffies["idle"] + (float)jiffies["active"]) * 100;
+         ((float)jiffies["idle"] + (float)jiffies["active"]);
 }
 
 std::unordered_map<std::string, long> Processor::GetJiffies(
