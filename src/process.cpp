@@ -9,15 +9,17 @@
 #include <vector>
 
 #include "linux_parser.h"
+#include "password.h"
 
 using std::string;
 using std::to_string;
 using std::vector;
 
-Process::Process(int pid)
+Process::Process(int pid, Password* pwd_pointer)
     : pid_(pid),
       process_status(LinuxParser::ReadProcessStatus(pid)),
-      stat(LinuxParser::ReadStat(pid)) {}
+      stat(LinuxParser::ReadStat(pid)),
+      pwd_(pwd_pointer) {}
 
 int Process::Pid() const { return pid_; }
 
@@ -30,7 +32,8 @@ void Process::Update() {
 float Process::CpuUtilization() {
   long active = static_cast<float>(this->ActiveJiffies());
   long total = static_cast<float>(LinuxParser::Jiffies());
-  float utilization = static_cast<float>((active-preciding_active_)/(total-preciding_total_));
+  float utilization = static_cast<float>((active - preciding_active_) /
+                                         (total - preciding_total_));
   preciding_active_ = active;
   preciding_total_ = total;
   return utilization;
@@ -52,15 +55,27 @@ string Process::Command() {
 }
 
 // TODO: Return this process's memory utilization
-string Process::Ram() { return process_status["VmSize"]; }
+string Process::Ram() { 
+  return process_status["VmSize"]; 
+}
 
 // TODO: Return the user (name) that generated this process
-string Process::User() { return process_status["Uid"]; }
+string Process::User() { 
+  std::string entry = process_status["Uid"];
+  std::istringstream ss(entry);
+  std::string uname;
+  std::string token;
+  if (ss>>token){
+    uname = (*pwd_).FindUsername(stoi(token));
+  }
+  return uname;
+}
 
 // TODO: Return the age of this process (in seconds)
 long int Process::UpTime() { return LinuxParser::UpTime(Pid()); }
 
 // TODO: Overload the "less than" comparison operator for Process objects
 // REMOVE: [[maybe_unused]] once you define the function
-bool Process::operator<(Process const& a) const { return a < this->pid_; }
-bool Process::operator>(Process const& a) const { return a > this->pid_; }
+
+bool Process::operator<(Process const& a) const { return a.Pid() < this->pid_; }
+bool Process::operator>(Process const& a) const { return a.Pid() > this->pid_; }

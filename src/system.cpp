@@ -11,6 +11,7 @@
 #include "linux_parser.h"
 #include "process.h"
 #include "processor.h"
+#include "password.h"
 
 using std::set;
 using std::size_t;
@@ -22,6 +23,8 @@ Processor& System::Cpu() { return cpu_; }
 // TODO: Return a container composed of the system's processes
 vector<Process>& System::Processes() {
   Update();
+  pwd = Password();
+  //Password* pwd_pointer = &pwd;
   return this->processes_;
 }
 
@@ -30,7 +33,7 @@ void System::Update() {
   std::set<int> nascent_pids =
       RelativeComplement(LinuxParser::Pids(), ExistentPids());
   std::for_each(nascent_pids.begin(), nascent_pids.end(),
-                [&](auto& pid) { processes_.push_back(Process(pid)); });
+                [&](auto& pid) { processes_.push_back(Process(pid, &pwd)); });
   RemoveTerminatedProcesses(ExpiringPids());
 }
 

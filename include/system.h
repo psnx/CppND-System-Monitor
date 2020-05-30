@@ -28,6 +28,8 @@ class System {
   void RemoveTerminatedProcesses(std::set<int> expired_pids);
   Processor cpu_ = {};
   std::vector<Process> processes_;
+  std::unordered_map<int, std::string> passwd;
+  Password pwd;
 };
 
 #endif

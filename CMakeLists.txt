@@ -4,6 +4,11 @@ project(monitor)
 find_package(Curses REQUIRED)
 include_directories(${CURSES_INCLUDE_DIRS})
 
+find_package(Boost REQUIRED)
+if(Boost_FOUND)
+  include_directories(${Boost_INCLUDE_DIRS})
+endif()
+
 include_directories(include)
 file(GLOB SOURCES "src/*.cpp")
 

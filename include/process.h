@@ -4,13 +4,15 @@
 #include <string>
 #include <unordered_map>
 #include <vector>
+
+#include "password.h"
 /*
 Basic class for Process representation
 It contains relevant attributes as shown below
 */
 class Process {
  public:
-  Process(int pid);
+  Process(int pid, Password* pwd_pointer);
   void Update();
   int Pid() const;                         // TODO: See src/process.cpp
   std::string User();                      // TODO: See src/process.cpp
@@ -35,7 +37,7 @@ class Process {
   };
   long preciding_active_{0};
   long preciding_total_{0};
-
+  Password* pwd_;
 };
 
 #endif
