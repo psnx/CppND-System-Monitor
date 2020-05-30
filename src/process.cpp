@@ -54,12 +54,10 @@ string Process::Command() {
          ")" + "]: " + LinuxParser::Command(Pid());
 }
 
-// TODO: Return this process's memory utilization
 string Process::Ram() { 
   return process_status["VmSize"]; 
 }
 
-// TODO: Return the user (name) that generated this process
 string Process::User() { 
   std::string entry = process_status["Uid"];
   std::istringstream ss(entry);
@@ -69,9 +67,6 @@ string Process::User() {
 
 // TODO: Return the age of this process (in seconds)
 long int Process::UpTime() { return LinuxParser::UpTime(Pid()); }
-
-// TODO: Overload the "less than" comparison operator for Process objects
-// REMOVE: [[maybe_unused]] once you define the function
 
 bool Process::operator<(Process const& a) const { return a.Pid() < this->pid_; }
 bool Process::operator>(Process const& a) const { return a.Pid() > this->pid_; }
