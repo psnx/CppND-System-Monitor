@@ -28,13 +28,17 @@ vector<Process>& System::Processes() {
 
 void System::Update() {
   // new pids not in process list
+  AddNewProcesses();
+  RemoveTerminatedProcesses(ExpiringPids());
+  std::for_each(processes_.begin(), processes_.end(), 
+    [&](auto p){p.Update();});
+}
+void System::AddNewProcesses() {
   std::set<int> nascent_pids =
       RelativeComplement(LinuxParser::Pids(), ExistentPids());
   std::for_each(nascent_pids.begin(), nascent_pids.end(),
                 [&](auto& pid) { processes_.push_back(Process(pid, &pwd)); });
-  RemoveTerminatedProcesses(ExpiringPids());
 }
-
 std::set<int> System::ExpiringPids() {
   std::set<int> expiring_pids =
       RelativeComplement(ExistentPids(), LinuxParser::Pids());

@@ -25,6 +25,7 @@ class System {
   std::set<int> RelativeComplement(const std::set<int>& one,
                                    const std::set<int>& two);
   std::set<int> ExpiringPids();
+  void AddNewProcesses();
   void RemoveTerminatedProcesses(std::set<int> expired_pids);
   Processor cpu_ = {};
   std::vector<Process> processes_;
