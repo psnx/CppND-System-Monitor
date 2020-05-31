@@ -111,8 +111,6 @@ float LinuxParser::MemoryUtilization() {
   return 1 - mem_free / (mem_total-buffers);
 }
 
-
-// TODO: Read and return the system uptime
 long LinuxParser::UpTime() {
   std::string line, token;
   std::ifstream filestream(kProcDirectory + kUptimeFilename);
@@ -126,9 +124,7 @@ long LinuxParser::UpTime() {
   return 0;
 }
 
-// TODO: Read and return the number of jiffies for the system
 long LinuxParser::Jiffies() { return UpTime() * sysconf(_SC_CLK_TCK); }
-
 
 std::unordered_map<std::string, std::string> LinuxParser::ReadProcessStatus(
     int pid) {
@@ -183,8 +179,6 @@ int LinuxParser::TotalProcesses() { return 0; }
 // TODO: Read and return the number of running processes
 int LinuxParser::RunningProcesses() { return 0; }
 
-// TODO: Read and return the command associated with a process
-// REMOVE: [[maybe_unused]] once you define the function
 string LinuxParser::Command(int pid) {
   std::string line, token;
   std::ifstream filestream(kProcDirectory + to_string(pid) + kCmdlineFilename);
@@ -198,8 +192,6 @@ string LinuxParser::Command(int pid) {
   return "NaN";
 }
 
-// TODO: Read and return the uptime of a process
-// REMOVE: [[maybe_unused]] once you define the function
 long LinuxParser::UpTime(int pid) {
   std::string token;
   std::ifstream filestream(kProcDirectory + to_string(pid) + kStatFilename);
