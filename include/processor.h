@@ -13,6 +13,12 @@ class Processor {
       std::unordered_map<std::string,
                          std::function<long(const std::vector<std::string>&)>>&
           jiffy_map);
+  std::unordered_map<std::string, std::string> stat_ = {};
+private:
+  long ActiveJiffies(std::vector<std::string>& cpu);
+  long IdleJiffies(std::vector<std::string>& cpu);
+  std::vector<std::string> stat_line_to_vector(std::string key);
+
 };
 
 #endif

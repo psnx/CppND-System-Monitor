@@ -43,19 +43,9 @@ enum CPUStates {
   kGuest_,
   kGuestNice_
 };
-/*
-const std::array<CPUStates, 8> nonidles =
-{kUser_, kNice_, kSystem_, kIRQ_, kSoftIRQ_, kSteal_, kGuest_, kGuestNice_};
-
-const std::array<CPUStates, 2> idles =
-{ kIdle_, kIOwait_ };
-*/
-std::vector<std::string> CpuUtilization();
-std::vector<std::string> GetCpuStatForCore(std::string core);
+std::unordered_map<std::string, std::string> ReadStat();
 
 long Jiffies();
-long ActiveJiffies(const std::vector<std::string>& cpu);
-long IdleJiffies(const std::vector<std::string>& cpu);
 
 // Processes
 std::string Command(int pid);
@@ -63,7 +53,7 @@ std::string Ram(int pid);
 std::string Uid(int pid);
 std::string User(int pid);
 long int UpTime(int pid);
-std::vector<std::string> ReadStat(int pid);
+std::vector<std::string> ReadProcessStat(int pid);
 
 std::unordered_map<std::string, std::string> ReadProcessStatus(int pid);
 

@@ -18,14 +18,14 @@ using std::vector;
 Process::Process(int pid, Password* pwd_pointer)
     : pid_(pid),
       process_status(LinuxParser::ReadProcessStatus(pid)),
-      stat(LinuxParser::ReadStat(pid)),
+      stat(LinuxParser::ReadProcessStat(pid)),
       pwd_(pwd_pointer) {}
 
 int Process::Pid() const { return pid_; }
 
 void Process::Update() {
   process_status = LinuxParser::ReadProcessStatus(pid_);
-  stat = LinuxParser::ReadStat(pid_);
+  stat = LinuxParser::ReadProcessStat(pid_);
 }
 
 // TODO: Return this process's CPU utilization

@@ -27,7 +27,6 @@ vector<Process>& System::Processes() {
 }
 
 void System::Update() {
-  // new pids not in process list
   AddNewProcesses();
   RemoveTerminatedProcesses(ExpiringPids());
   std::for_each(processes_.begin(), processes_.end(), 
