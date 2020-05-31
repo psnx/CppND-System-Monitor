@@ -6,6 +6,8 @@
 class Processor {
   public:
     float Utilization();  // TODO: See src/processor.cpp
+    int TotalProcesses();
+    int RunningProcesses();
 
   private:
     long ActiveJiffies(std::vector<std::string>& cpu);

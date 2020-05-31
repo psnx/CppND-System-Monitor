@@ -78,9 +78,12 @@ float System::MemoryUtilization() {
 std::string System::OperatingSystem() { return LinuxParser::OS("PRETTY_NAME"); }
 
 // TODO: Return the number of processes actively running on the system
-int System::RunningProcesses() { return LinuxParser::Pids().size(); }
+int System::RunningProcesses() { 
+  return Cpu().RunningProcesses(); 
+}
 
-// TODO: Return the total number of processes on the system
-int System::TotalProcesses() { return 0; }
+int System::TotalProcesses() { 
+  return Cpu().TotalProcesses();
+ }
 
 long int System::UpTime() { return LinuxParser::UpTime(); }

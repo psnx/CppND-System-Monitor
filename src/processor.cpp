@@ -16,6 +16,14 @@ float Processor::Utilization() {
   return (float)ActiveJiffies(stat_cpu) / ((float)ActiveJiffies(stat_cpu) + (float)IdleJiffies(stat_cpu));
 }
 
+int Processor::TotalProcesses() {
+  return stoi(stat_["processes"]);
+}
+
+int Processor::RunningProcesses() {
+  return stoi(stat_["procs_running"]);
+}
+
 std::vector<std::string> Processor::stat_line_to_vector(std::string key){
   std::istringstream ss(stat_[key]);
   std::string token;
