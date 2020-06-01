@@ -55,7 +55,11 @@ string Process::Command() {
 }
 
 string Process::Ram() { 
-  return process_status["VmSize"]; 
+  string vms_size = process_status["VmSize"]; 
+  std::istringstream ss(vms_size);
+  std::string token;
+  ss >> token;
+  return to_string(stof(token)/1000).substr(0,4);
 }
 
 string Process::User() { 
