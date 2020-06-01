@@ -59,7 +59,7 @@ string Process::Ram() {
   std::istringstream ss(vms_size);
   std::string token;
   ss >> token;
-  return to_string(stof(token)/1000).substr(0,4);
+  return to_string(stoi(token)/1024);
 }
 
 string Process::User() { 
