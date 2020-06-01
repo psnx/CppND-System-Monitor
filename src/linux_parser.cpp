@@ -173,12 +173,6 @@ std::unordered_map<std::string, std::string> LinuxParser::ReadStat() {
   return umap;
 }
 
-// TODO: Read and return the total number of processes
-int LinuxParser::TotalProcesses() { return 0; }
-
-// TODO: Read and return the number of running processes
-int LinuxParser::RunningProcesses() { return 0; }
-
 string LinuxParser::Command(int pid) {
   std::string line, token;
   std::ifstream filestream(kProcDirectory + to_string(pid) + kCmdlineFilename);
