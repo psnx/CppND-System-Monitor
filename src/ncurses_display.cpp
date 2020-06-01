@@ -45,10 +45,10 @@ void NCursesDisplay::DisplaySystem(System& system, WINDOW* window) {
   wprintw(window, ProgressBar(system.MemoryUtilization()).c_str());
   wattroff(window, COLOR_PAIR(1));
   mvwprintw(window, ++row, 2,
-            ("Total Processes: " + to_string(system.TotalProcesses())).c_str());
+            ("Total Processes: " + to_string(system.TotalProcesses())+"    ").c_str());
   mvwprintw(
       window, ++row, 2,
-      ("Running Processes: " + to_string(system.RunningProcesses())).c_str());
+      ("Running Processes: " + to_string(system.RunningProcesses())+"  ").c_str());
   mvwprintw(window, ++row, 2,
             ("Up Time: " + Format::ElapsedTime(system.UpTime())).c_str());
   wrefresh(window);
@@ -69,7 +69,7 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
   mvwprintw(window, row, cpu_column, "CPU[%%]");
   mvwprintw(window, row, ram_column, "RAM[MB]");
   mvwprintw(window, row, time_column, "TIME+");
-  mvwprintw(window, row, command_column, "COMMAND");
+  mvwprintw(window, row, command_column, "[NAME](Status): COMMAND");
   wattroff(window, COLOR_PAIR(2));
   // Tamas: process size check was added
   for (int i = 0; i < n && i < (int)processes.size(); ++i) {
