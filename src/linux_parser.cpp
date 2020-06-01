@@ -198,7 +198,7 @@ long LinuxParser::UpTime(int pid) {
   long int time{0};
   if (filestream.is_open()) {
     for (int i = 0; filestream >> token; ++i)
-      if (i == 22) {
+      if (i == 13) {
         long int time{stol(token)};
         time /= sysconf(_SC_CLK_TCK);
         return time;
