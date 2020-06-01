@@ -37,7 +37,7 @@ class Process {
     kernel = 14,
     children_user = 15,
     children_kernel = 16,
-    up_time =22
+    up_time =21
   };
   Password* pwd_;
 };

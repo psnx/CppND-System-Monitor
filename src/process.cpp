@@ -70,8 +70,8 @@ string Process::User() {
 }
 
 long int Process::UpTime() { 
-  return 1212;
-  //return {stol(stat_[eProcess_stat::up_time])};
+  long int ticks = stol(stat_[eProcess_stat::up_time]);
+  return ticks / sysconf(_SC_CLK_TCK); //seconds
 }
 
 bool Process::operator<(Process const& a) const { return a.Pid() < this->pid_; }
