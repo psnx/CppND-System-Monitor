@@ -26,17 +26,19 @@ class Process {
   // TODO: Declare any necessary private members
  private:
   int pid_;
-  std::unordered_map<std::string, std::string> process_status{};
-  std::vector<std::string> stat;  // from /proc/PID/stat
   long ActiveJiffies();           // The the process's own jiffies
+  long preciding_active_{0};
+  long preciding_total_{0};
+  
+  std::unordered_map<std::string, std::string> process_status{};
+  std::vector<std::string> stat_;  // from /proc/PID/stat
   enum eProcess_stat {
     user = 13,
     kernel = 14,
     children_user = 15,
-    children_kernel = 16
+    children_kernel = 16,
+    up_time =22
   };
-  long preciding_active_{0};
-  long preciding_total_{0};
   Password* pwd_;
 };
 

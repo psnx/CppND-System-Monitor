@@ -1,9 +1,7 @@
-#include "format.h"
-
 #include <math.h>
-
 #include <string>
 
+#include "format.h"
 using std::string;
 
 string Format::Pad(string s, char c, int padsize){
