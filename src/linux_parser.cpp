@@ -185,18 +185,3 @@ string LinuxParser::Command(int pid) {
   }
   return "NaN";
 }
-
-long LinuxParser::UpTime(int pid) {
-  std::string token;
-  std::ifstream filestream(kProcDirectory + to_string(pid) + kStatFilename);
-  long int time{0};
-  if (filestream.is_open()) {
-    for (int i = 0; filestream >> token; ++i)
-      if (i == 13) {
-        long int time{stol(token)};
-        time /= sysconf(_SC_CLK_TCK);
-        return time;
-      }
-  }
-  return time;
-}
