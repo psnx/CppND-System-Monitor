@@ -78,5 +78,11 @@ long int Process::UpTime() {
   return ticks / sysconf(_SC_CLK_TCK); //seconds
 }
 
-bool Process::operator<(Process const& a) const { return a.Pid() < this->pid_; }
-bool Process::operator>(Process const& a) const { return a.Pid() > this->pid_; }
+
+bool Process::operator<(Process& a) {
+  return this->CpuUtilization() < a.CpuUtilization();
+}
+
+bool Process::operator>(Process& a) {
+  return this->CpuUtilization() > a.CpuUtilization();
+}
