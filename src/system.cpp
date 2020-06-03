@@ -31,6 +31,11 @@ void System::Update() {
   RemoveTerminatedProcesses(ExpiringPids());
   std::for_each(processes_.begin(), processes_.end(), 
     [&](auto p){p.Update();});
+
+  std::sort(processes_.begin(), processes_.end(), [](Process p1, Process p2) {
+    return p1.CpuUtilization() > p2.CpuUtilization();
+  });
+
 }
 void System::AddNewProcesses() {
   std::set<int> nascent_pids =
