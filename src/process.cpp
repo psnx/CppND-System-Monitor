@@ -55,6 +55,10 @@ string Process::Command() {
 }
 
 string Process::Ram() { 
+  auto it = process_status.find("VmSize");
+  if (it == process_status.end()){
+    process_status["VmSize"]= "0 kB";
+  }
   string vms_size = process_status["VmSize"]; 
   std::istringstream ss(vms_size);
   std::string token;
