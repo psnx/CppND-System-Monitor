@@ -32,11 +32,11 @@ void Process::Update() {
 float Process::CpuUtilization() {
   float active = static_cast<float>(this->ActiveJiffies());
   float total = static_cast<float>(LinuxParser::Jiffies());
-  float utilization = ((active - preciding_active_) /
-                      (total - preciding_total_));
-  preciding_active_ = active;
-  preciding_total_ = total;
-  return utilization;
+  // float utilization = ((active - preciding_active_) /
+  //                     (total - preciding_total_));
+  // preciding_active_ = active;
+  // preciding_total_ = total;
+  return active / total;
 }
 
 long Process::ActiveJiffies() {
