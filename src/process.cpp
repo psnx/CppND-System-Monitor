@@ -30,10 +30,10 @@ void Process::Update() {
 
 // TODO: Return this process's CPU utilization
 float Process::CpuUtilization() {
-  long active = static_cast<float>(this->ActiveJiffies());
-  long total = static_cast<float>(LinuxParser::Jiffies());
-  float utilization = static_cast<float>((active - preciding_active_) /
-                                         (total - preciding_total_));
+  float active = static_cast<float>(this->ActiveJiffies());
+  float total = static_cast<float>(LinuxParser::Jiffies());
+  float utilization = ((active - preciding_active_) /
+                      (total - preciding_total_));
   preciding_active_ = active;
   preciding_total_ = total;
   return utilization;

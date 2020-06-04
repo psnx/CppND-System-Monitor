@@ -40,9 +40,25 @@ std::vector<std::string> ReadProcessStat(int pid) {
   return stat;
 }
 
+long ActiveJiffies(std::vector<std::string> stat_) {
+  long active{0};
+  active += stol(stat_[13]);
+  active += stol(stat_[14]);
+  active += stol(stat_[15]);
+  active += stol(stat_[16l]);
+  return active;
+}
+
 int main (){
-    std::vector<std::string> stat = ReadProcessStat(1509);
-    long int elapsed = stol(stat[22])/sysconf(_SC_CLK_TCK);
+    std::vector<std::string> stat = ReadProcessStat(9);
+    long int elapsed = stol(stat[23])/sysconf(_SC_CLK_TCK);
     std::string formatted = ElapsedTime(elapsed);
     std::cout << formatted <<"\n";
+
+    // for (int i=0; i<stat.size(); i++){
+    //   std::cout << i << " : " << stat[i] << "\n";
+    // }
+    std::cout << ActiveJiffies(stat) << "\n";
+
+
 }

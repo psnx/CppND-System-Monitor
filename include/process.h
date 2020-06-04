@@ -27,8 +27,8 @@ class Process {
  private:
   int pid_;
   long ActiveJiffies();           // The the process's own jiffies
-  long preciding_active_{0};
-  long preciding_total_{0};
+  float preciding_active_{0};
+  float preciding_total_{0};
   
   std::unordered_map<std::string, std::string> process_status{};
   std::vector<std::string> stat_;  // from /proc/PID/stat
