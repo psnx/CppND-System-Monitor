@@ -30,8 +30,8 @@ void Password::Update(){
 std::string Password::FindUsername(int uid){
   std::unordered_map<int,std::string>::const_iterator it = passwd_cache_.find(uid);
   if (it == passwd_cache_.end()){
-    passwd_cache_.insert(std::make_pair(uid, "*UNKNOWN*"));
-    return "*UNKNOWN*";
+    passwd_cache_.insert(std::make_pair(uid, "none"));
+    return "none";
   } else {
     return passwd_cache_.at(uid);
   }
