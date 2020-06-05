@@ -183,5 +183,5 @@ string LinuxParser::Command(int pid) {
       return token;
     }
   }
-  return "*Terminated*";
+  return "N/A";
 }
