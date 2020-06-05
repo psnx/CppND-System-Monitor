@@ -44,13 +44,6 @@ float Process::CpuUtilization() {
     return preciding_utilization;
   }
   return preciding_utilization;
-  
-
-  // float utilization = ((active - preciding_active_) /
-  //                     (total - preciding_total_));
-  // preciding_active_ = active;
-  // preciding_total_ = total;
-  return active / total;
 }
 
 long Process::ActiveJiffies() {

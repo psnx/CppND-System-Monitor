@@ -86,8 +86,7 @@ void NCursesDisplay::DisplayProcesses(std::vector<Process>& processes,
   // filling rows with whitespace after deleted processes
   for (int i = (int)processes.size(); i < n; ++i) {
     mvwprintw(window, ++row, pid_column,
-              "                                                                                     "
-              "                                                               ");
+        "                                                                                                        ");
   }
 }
 
