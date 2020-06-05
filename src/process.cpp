@@ -32,6 +32,20 @@ void Process::Update() {
 float Process::CpuUtilization() {
   float active = static_cast<float>(this->ActiveJiffies());
   float total = static_cast<float>(LinuxParser::Jiffies());
+  float d_total = total - preciding_total_;
+  float d_active = active - preciding_active_;
+  if (d_total > 10 && d_active > 2){
+    preciding_active_ = active;
+    preciding_total_ = total;
+    preciding_utilization = d_active / d_total;
+    return preciding_utilization;
+  } else if (preciding_utilization == 0){
+    preciding_utilization = active / total;
+    return preciding_utilization;
+  }
+  return preciding_utilization;
+  
+
   // float utilization = ((active - preciding_active_) /
   //                     (total - preciding_total_));
   // preciding_active_ = active;
