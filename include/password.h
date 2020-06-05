@@ -7,7 +7,8 @@
 class Password {
   public:
     Password();
-    std::string FindUsername(int uid);
+    std::string GetUserName(int uid);
+    std::string GetUserNameShorten(int uid, int max_length);
     void Update();
 
   private:

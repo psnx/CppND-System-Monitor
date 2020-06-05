@@ -77,7 +77,7 @@ string Process::User() {
   std::string entry = process_status["Uid"];
   std::istringstream ss(entry);
   std::string token;
-  return (ss>>token) ? (*pwd_).FindUsername(stoi(token)) : "-";
+  return (ss>>token) ? (*pwd_).GetUserNameShorten(stoi(token), 6) : "-";
 }
 
 long int Process::UpTime() { 

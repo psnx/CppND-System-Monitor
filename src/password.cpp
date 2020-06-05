@@ -27,7 +27,7 @@ void Password::Update(){
   }
 }
 
-std::string Password::FindUsername(int uid){
+std::string Password::GetUserName(int uid){
   std::unordered_map<int,std::string>::const_iterator it = passwd_cache_.find(uid);
   if (it == passwd_cache_.end()){
     passwd_cache_.insert(std::make_pair(uid, "none"));
@@ -35,6 +35,11 @@ std::string Password::FindUsername(int uid){
   } else {
     return passwd_cache_.at(uid);
   }
+}
+
+std::string Password::GetUserNameShorten(int uid, int max_length){
+  std::string username = GetUserName(uid);
+  return username.length() > static_cast<size_t>(max_length) ? username.substr(0, max_length) : username;
 }
 
 
