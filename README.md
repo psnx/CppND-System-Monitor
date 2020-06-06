@@ -1,22 +1,29 @@
 # CppND-System-Monitor
 
-Starter code for System Monitor Project in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213). 
 
-Follow along with the classroom lesson to complete the project!
+This project is based on the starter code for System Monitor Project in the Object Oriented Programming Course of the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
 ![System Monitor](images/monitor.png)
 
-## Udacity Linux Workspace
-[Udacity](https://www.udacity.com/) provides a browser-based Linux [Workspace](https://engineering.udacity.com/creating-a-gpu-enhanced-virtual-desktop-for-udacity-497bdd91a505) for students. 
+This project only targets Linux and is not ported to any other OS.
 
-You are welcome to develop this project on your local machine, and you are not required to use the Udacity Workspace. However, the Workspace provides a convenient and consistent Linux development environment we encourage you to try.
+## Dependencies
 
-## ncurses
-[ncurses](https://www.gnu.org/software/ncurses/) is a library that facilitates text-based graphical output in the terminal. This project relies on ncurses for display output.
+- [ncurses](https://www.gnu.org/software/ncurses/) is a library that facilitates text-based graphical output in the terminal. This project relies on ncurses for display output.
+- [Boost](https://www.boost.org) provides free peer-reviewed portable C++ source libraries.
+- Build tools etc.
 
-Within the Udacity Workspace, `.student_bashrc` automatically installs ncurses every time you launch the Workspace.
-
-If you are not using the Workspace, install ncurses within your own Linux environment: `sudo apt install libncurses5-dev libncursesw5-dev`
+Install all the dependencies:
+```bash
+$ sudo apt-get update && apt-get install -y \
+  tzdata \
+  build-essential \ 
+  cmake \
+  clang-format \
+  libncurses5-dev \
+  libncursesw5-dev \
+  libboost-all-dev
+```
 
 ## Make
 This project uses [Make](https://www.gnu.org/software/make/). The Makefile has four targets:
@@ -25,17 +32,40 @@ This project uses [Make](https://www.gnu.org/software/make/). The Makefile has f
 * `debug` compiles the source code and generates an executable, including debugging symbols
 * `clean` deletes the `build/` directory, including all of the build artifacts
 
-## Instructions
+## Build
+### Linux
 
-1. Clone the project repository: `git clone https://github.com/udacity/CppND-System-Monitor-Project-Updated.git`
+1. Clone the project repository: `git clone https://github.com/psnx/CppND-System-Monitor.git`
 
 2. Build the project: `make build`
 
 3. Run the resulting executable: `./build/monitor`
-![Starting System Monitor](images/starting_monitor.png)
 
-4. Follow along with the lesson.
+### Docker
+1. Spin up the container:
+```bash
+sudo docker-compose up -d
+```
+2. Check if the container is running
+```bash
+$ sudo docker ps
+CONTAINER ID        IMAGE                       COMMAND             CREATED             STATUS              PORTS               NAMES
+beabc1b6e3d9        cppnd-system-monitor_main   "/bin/bash"         3 seconds ago       Up 2 seconds                            cppnd-system-monitor_main_1
+```
 
-5. Implement the `System`, `Process`, and `Processor` classes, as well as functions within the `LinuxParser` namespace.
+3. run interactive bash in the container
+```bash
+sudo docker exec -it beabc1b6e3d9 bash #as in your CONTAINER ID
+```
 
-6. Submit!
+4. build the project in the container
+```bash
+cd /srv
+make build
+./build/monitor # to check if it works
+exit # leave the container
+```
+5. you will find the binary in the build folder
+```
+./build/monitor
+```
