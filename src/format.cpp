@@ -5,6 +5,8 @@
 using std::string;
 
 string Format::Pad(string s, char c, int padsize){
+  if (padsize - static_cast<int>(s.size()) < 0) 
+    return s;
   s.insert(s.begin(), padsize - s.size(), c);
   return s;
 }
